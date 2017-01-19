@@ -18,9 +18,9 @@ voiced when active. There are multiple ways to add users:
 * Send commands to voicebot through the command-line while it's running. Type
   "help" to see a list of commands.
 * Send commands to voicebot through IRC. If you're a channel operator and
-  present in the channel, you can send "<nickname-of-voicebot>: <command>" in
-  the channel, or message voicebot directly with "<command>". Allowed commands
-  are ``add-nickname``, ``add-account``, ``remove-nickname``, and
+  present in the channel, you can send "\<nickname-of-voicebot\>: \<command\>"
+  in the channel, or message voicebot directly with "\<command\>". Allowed
+  commands are ``add-nickname``, ``add-account``, ``remove-nickname``, and
   ``remove-account``. The syntax is the same as it is through the command-line.
 * Edit the files ``nicknames`` and ``accounts`` and restart voicebot (see the
   "Data files" section).
