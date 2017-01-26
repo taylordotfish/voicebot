@@ -48,7 +48,7 @@ import os
 import sys
 import time
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 # If modified, update this URL to point to the modified version.
 SOURCE_URL = "https://github.com/taylordotfish/voicebot"
@@ -191,6 +191,10 @@ class Voicebot:
     @Event.nick
     async def on_nick(self, sender, nickname):
         await self.refresh_voice_status(nickname)
+
+    @Event.join
+    async def on_join(self, sender, channel):
+        await self.refresh_voice_status(sender, update_times=False)
 
     @Event.command("ACCOUNT")
     async def on_account(self, sender, account):

@@ -1,7 +1,7 @@
 voicebot
 ========
 
-Version 0.1.0
+Version 0.1.1
 
 **voicebot** automatically voices and devoices users in an IRC channel based
 on activity. Users can see who's been active recently simply by looking at
@@ -40,9 +40,9 @@ executable):
 What's new
 ----------
 
-Version 0.1.0:
+Version 0.1.1:
 
-* Initial release.
+* Users are now voiced when joining if they have been active recently.
 
 Dependencies
 ------------
