@@ -89,6 +89,9 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# Vim swap files
+*.swp
+
 # voicebot data files
 /nicknames
 /accounts
