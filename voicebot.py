@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2017 taylor.fish <contact@taylor.fish>
+# Copyright (C) 2017, 2021 taylor.fish <contact@taylor.fish>
 #
 # This file is part of voicebot.
 #
@@ -39,8 +39,9 @@ Options:
   -s --ssl               Use SSL/TLS to connect to the IRC server.
   -v --verbose           Display communication with the IRC server.
 """
+from aioconsole import aprint, ainput
 from docopt import docopt
-from pyrcb2 import IRCBot, Event, astdio, IDict, IDefaultDict
+from pyrcb2 import IRCBot, Event, IDict, IDefaultDict
 from getpass import getpass
 import asyncio
 import json
@@ -48,7 +49,7 @@ import os
 import sys
 import time
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
 # If modified, update this URL to point to the modified version.
 SOURCE_URL = "https://github.com/taylordotfish/voicebot"
@@ -127,24 +128,22 @@ class Voicebot:
             if account not in self.accounts:
                 del self.account_last_message_times[account]
 
-    def start(self, host, port, ssl, nick, password, sasl_account):
-        self.bot.schedule_coroutine(self.command_loop())
-        self.bot.call_coroutine(self.start_async(
-            host, port, ssl, nick, password, sasl_account,
-        ))
-
-    async def start_async(self, host, port, ssl, nick, password, sasl_account):
-        await self.bot.connect(host, port, ssl=ssl)
-        if sasl_account:
-            await self.bot.sasl_auth(sasl_account, password)
-            password = None
-        await self.bot.register(nick, password=password)
-        result = await self.bot.join(self.channel)
-        if not result.success:
-            raise result.to_exception("Could not join channel")
-        interval = min(self.duration / 4, 60)
-        self.bot.schedule_coroutine(self.devoice_loop(interval))
-        await self.bot.listen()
+    async def run(self, host, port, ssl, nick, password, sasl_account):
+        async def init():
+            basic_password = password
+            await self.bot.connect(host, port, ssl=ssl)
+            if sasl_account:
+                await self.bot.sasl_auth(sasl_account, password)
+                basic_password = None
+            await self.bot.register(nick, password=basic_password)
+            result = await self.bot.join(self.channel)
+            if not result.success:
+                raise result.to_exception("Could not join channel")
+            interval = min(self.duration / 4, 60)
+            await asyncio.gather(
+                self.devoice_loop(interval),
+            )
+        await self.bot.run(asyncio.gather(self.command_loop(), init()))
 
     @Event.privmsg
     async def on_privmsg(self, sender, channel, message):
@@ -324,14 +323,14 @@ class Voicebot:
     async def command_loop(self):
         while True:
             try:
-                args = (await astdio.input()).split()
+                args = (await ainput()).split()
             except EOFError:
                 break
             text = COMMAND_LOOP_HELP
             if args and len(args) == ARG_COUNT.get(args[0], -1) + 1:
                 text = self.handle_command(*args)
             if text:
-                await astdio.print(text, file=sys.stderr)
+                await aprint(text, use_stderr=True)
 
 
 def read_lines(path):
@@ -367,18 +366,20 @@ def main(argv):
         if not sys.stdin.isatty():
             print("Received password.", file=sys.stderr)
 
-    voicebot = Voicebot(
-        args["<channel>"], int(args["--time"]), args["--force-id"],
-        args["--prefixes"], args["--verbose"],
-    )
-
-    try:
-        voicebot.start(
-            args["<host>"], int(args["<port>"]), args["--ssl"],
-            args["<nickname>"], password, args["--sasl"],
+    async def run():
+        voicebot = Voicebot(
+            args["<channel>"], int(args["--time"]), args["--force-id"],
+            args["--prefixes"], args["--verbose"],
         )
-    finally:
-        voicebot.save()
+        try:
+            voicebot.run(
+                args["<host>"], int(args["<port>"]), args["--ssl"],
+                args["<nickname>"], password, args["--sasl"],
+            )
+        finally:
+            voicebot.save()
+    asyncio.run(run())
+
 
 if __name__ == "__main__":
     main(sys.argv)

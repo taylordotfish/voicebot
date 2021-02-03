@@ -1,7 +1,7 @@
 voicebot
 ========
 
-Version 0.1.1
+Version 0.2.0
 
 **voicebot** automatically voices and devoices users in an IRC channel based
 on activity. Users can see who's been active recently simply by looking at
@@ -40,13 +40,16 @@ executable):
 What's new
 ----------
 
-Version 0.1.1:
+Version 0.2.0
 
-* Users are now voiced when joining if they have been active recently.
+* voicebot now works with (and requires) [pyrcb2] v0.6.
 
 Dependencies
 ------------
 
 * Python ≥ 3.5
-* [pyrcb2](https://pypi.python.org/pypi/pyrcb2) ≥ 0.3.2
-* [docopt](https://pypi.python.org/pypi/docopt) ≥ 0.6.6
+* [pyrcb2] ≥ 0.6
+* [docopt] ≥ 0.6.6
+
+[pyrcb2]: https://pypi.org/project/pyrcb2
+[docopt]: https://pypi.org/project/docopt
