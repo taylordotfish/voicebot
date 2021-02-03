@@ -47,9 +47,13 @@ Version 0.2.0
 Dependencies
 ------------
 
-* Python ≥ 3.5
-* [pyrcb2] ≥ 0.6
-* [docopt] ≥ 0.6.6
+* Python ≥ 3.7
+* Python package: [pyrcb2]
+* Python package: [aioconsole]
+* Python package: [docopt]
+
+Run ``pip3 install -r requirements.txt`` to install the Python packages.
 
 [pyrcb2]: https://pypi.org/project/pyrcb2
+[aioconsole]: https://pypi.org/project/aioconsole
 [docopt]: https://pypi.org/project/docopt
