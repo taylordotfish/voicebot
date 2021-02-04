@@ -49,7 +49,7 @@ import os
 import sys
 import time
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 # If modified, update this URL to point to the modified version.
 SOURCE_URL = "https://github.com/taylordotfish/voicebot"
@@ -114,7 +114,7 @@ class Voicebot:
         write_lines(NICKNAMES_PATH, list(self.nicknames))
         write_lines(ACCOUNTS_PATH, list(self.accounts))
         self.filter_times()
-        with open(DATA_PATH, "w") as f:
+        with open(DATA_PATH, "w", encoding="utf8") as f:
             json.dump([
                 self.nickname_last_message_times,
                 self.account_last_message_times,
@@ -335,7 +335,7 @@ class Voicebot:
 
 def read_lines(path):
     try:
-        with open(path) as f:
+        with open(path, encoding="utf8") as f:
             return f.read().splitlines()
     except FileNotFoundError:
         return []
@@ -344,7 +344,7 @@ def read_lines(path):
 def write_lines(path, lines):
     if not os.path.exists(path) and not lines:
         return
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf8") as f:
         for line in lines:
             print(line, file=f)
 
@@ -358,7 +358,7 @@ def main(argv):
     args = docopt(__doc__, argv=argv[1:], version=__version__)
     password = None
     if args["--passfile"] is not None:
-        with open(args["--passfile"]) as f:
+        with open(args["--passfile"], encoding="utf8") as f:
             password = f.read().strip("\r\n")
     elif args["--password"] or args["--sasl"] is not None:
         print("Password: ", end="", file=sys.stderr, flush=True)
