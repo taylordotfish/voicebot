@@ -52,7 +52,9 @@ Dependencies
 * Python package: [aioconsole]
 * Python package: [docopt]
 
-Run ``pip3 install -r requirements.txt`` to install the Python packages.
+Run ``pip3 install -r requirements.txt`` to install the Python packages. You
+can also use ``requirements.freeze.txt`` instead to install specific versions
+of the dependencies that have been verified to work.
 
 [pyrcb2]: https://pypi.org/project/pyrcb2
 [aioconsole]: https://pypi.org/project/aioconsole

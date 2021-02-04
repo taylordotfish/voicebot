@@ -1,3 +1,3 @@
-aioconsole==0.3.1
-docopt==0.6.2
-pyrcb2==0.6.1
+aioconsole>=0.3.1,<0.4
+docopt>=0.6.2,<0.7
+pyrcb2>=0.6.1,<0.7
