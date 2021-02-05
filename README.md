@@ -59,3 +59,9 @@ of the dependencies that have been verified to work.
 [pyrcb2]: https://pypi.org/project/pyrcb2
 [aioconsole]: https://pypi.org/project/aioconsole
 [docopt]: https://pypi.org/project/docopt
+
+License
+-------
+
+voicebot is licensed under version 3 or later of the GNU Affero General Public
+License. See [LICENSE](LICENSE).
